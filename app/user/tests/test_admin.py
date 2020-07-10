@@ -19,7 +19,7 @@ class AdminTests(TestCase):
 
     def test_list_users(self):
         """Test users are listed on the user page"""
-        url = reverse('admin:core_user_changelist')
+        url = reverse('admin:user_user_changelist')
         req = self.client.get(url)
 
         self.assertContains(req, self.user.name)
@@ -27,14 +27,14 @@ class AdminTests(TestCase):
 
     def test_load_edit_user(self):
         """Test that the edit user page loads"""
-        url = reverse('admin:core_user_change', args=[self.user.id])
+        url = reverse('admin:user_user_change', args=[self.user.id])
         req = self.client.get(url)
 
         self.assertEqual(req.status_code, 200)
 
     def test_load_add_user(self):
         """Test that the add user page loads"""
-        url = reverse('admin:core_user_add')
+        url = reverse('admin:user_user_add')
         req = self.client.get(url)
 
         self.assertEqual(req.status_code, 200)
