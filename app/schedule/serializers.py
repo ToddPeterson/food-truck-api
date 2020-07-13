@@ -3,7 +3,7 @@ from rest_framework import serializers
 from schedule.models import Location
 
 
-class LocationSerializer(serializers.Serializer):
+class LocationSerializer(serializers.ModelSerializer):
     """Serializer for a location object"""
 
     class Meta:

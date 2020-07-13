@@ -6,7 +6,9 @@ from schedule import serializers
 from schedule.models import Location
 
 
-class LocationViewSet(viewsets.GenericViewSet, mixins.ListModelMixin):
+class LocationViewSet(viewsets.GenericViewSet,
+                      mixins.ListModelMixin,
+                      mixins.CreateModelMixin):
     """Viewset for user owned location entities"""
 
     authentication_classes = [TokenAuthentication]
@@ -19,3 +21,6 @@ class LocationViewSet(viewsets.GenericViewSet, mixins.ListModelMixin):
         return self.queryset.filter(
             vendor=self.request.user.vendor
         ).order_by('-id').distinct()
+
+    def perform_create(self, serializer):
+        serializer.save(vendor=self.request.user.vendor)

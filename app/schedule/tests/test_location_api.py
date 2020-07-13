@@ -82,3 +82,22 @@ class PrivateLocationApiTests(TestCase):
         self.assertEqual(req.status_code, status.HTTP_200_OK)
         self.assertEqual(len(req.data), 1)
         self.assertEqual(req.data, serializer.data)
+
+    def test_create_location(self):
+        """Test creating a location"""
+        payload = {
+            'name': 'New Location',
+            'info': 'Info',
+            'longitude': 12.34,
+            'latitude': 56.78,
+        }
+
+        req = self.client.post(LOCATION_URL, payload)
+        self.assertEqual(req.status_code, status.HTTP_201_CREATED)
+
+        location = Location.objects.get(id=req.data['id'])
+        for key in ['name', 'info']:
+            self.assertEqual(payload[key], getattr(location, key))
+        for key in ['longitude', 'latitude']:
+            self.assertEqual(payload[key], float(getattr(location, key)))
+        self.assertEqual(location.vendor.id, self.user.vendor.id)
