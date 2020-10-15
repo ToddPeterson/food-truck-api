@@ -15,6 +15,13 @@ class CreateUserView(generics.CreateAPIView):
     serializer_class = serializers.UserSerializer
 
 
+class CreateVendorUserView(generics.CreateAPIView):
+    """Create a new user with a vendor"""
+    queryset = get_user_model().objects.all()
+    permission_classes = (AllowAny,)
+    serializer_class = serializers.VendorUserSerializer
+
+
 class CreateTokenView(ObtainAuthToken):
     """Create a new auth token for user"""
     permission_classes = (AllowAny,)

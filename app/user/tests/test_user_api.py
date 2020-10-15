@@ -7,6 +7,7 @@ from rest_framework import status
 
 
 CREATE_USER_URL = reverse('user:create')
+CREATE_VENDOR_USER_URL = reverse('user:create_vendor')
 TOKEN_URL = reverse('user:token')
 
 
@@ -54,6 +55,22 @@ class PublicUserApi(TestCase):
         }
         req = self.client.post(CREATE_USER_URL, payload)
         self.assertEqual(req.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_create_vendor_user(self):
+        """Test creating a user with a vendor"""
+        payload = {
+            'email': 'test@email.com',
+            'password': 'testpass',
+            'name': 'Food Truck Co.'
+        }
+        req = self.client.post(CREATE_VENDOR_USER_URL, payload)
+
+        self.assertEqual(req.status_code, status.HTTP_201_CREATED)
+
+        user = get_user_model().objects.get(**req.data)
+        self.assertTrue(user.check_password(payload['password']))
+        self.assertNotIn('password', req.data)
+        self.assertEqual(user.vendor.name, payload['name'])
 
     def test_create_token(self):
         """Test creating a token for a user"""

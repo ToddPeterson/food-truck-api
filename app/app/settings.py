@@ -25,7 +25,11 @@ SECRET_KEY = '!coo(7^8kyj#p$n*&rg2!20r#ub#pr5qgq#&ljmgb*w)^du!5f'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'localhost',
+    'localhost:8000',
+    'localhost:8080'
+]
 
 
 # Application definition
@@ -39,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'rest_framework.authtoken',
+    'corsheaders',
     'core',
     'user',
     'vendor',
@@ -53,6 +58,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'app.urls'
@@ -136,3 +142,8 @@ AUTH_USER_MODEL = 'user.User'
 #         'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
 #     ]
 # }
+
+CORS_ALLOWED_ORIGINS = (
+    'http://localhost:8000',
+    'http://localhost:8080'
+)
